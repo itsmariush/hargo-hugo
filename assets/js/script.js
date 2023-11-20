@@ -1,4 +1,4 @@
-// Preloader js    
+// Preloader js
 $(window).on('load', function () {
   $('.preloader').fadeOut(100);
 });
@@ -72,8 +72,8 @@ $(window).on('load', function () {
   $('.product-slider').slick({
     autoplay: false,
     infinite: true,
-    arrows: false,
-    dots: true,
+    arrows: true,
+    dots: false,
     customPaging: function (slider, i) {
       var image = $(slider.$slides[i]).data('image');
       return '<img class="img-fluid" src="' + image + '" alt="product-img">';
