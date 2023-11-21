@@ -10,16 +10,23 @@ interface CartData {
 }
 
 export class Cart {
-  private key: string;
+  private local_storage_key: string;
 
-  constructor(key: string = "cart") {
+  private modal: HTMLElement | null;
+  private openBtn: HTMLElement | null;
+  private closeBtn: HTMLElement | null;
+
+  constructor(local_storage_key: string = "cart") {
     console.log('loading up cart');
-    this.key = key;
-    const store = localStorage.getItem(key);
+    // get local stored cart data
+    this.local_storage_key = local_storage_key;
+    const store = localStorage.getItem(local_storage_key);
     if (store) {
       let cartData: CartData = JSON.parse(store);
       this.set_badge(cartData.products.length.toString());
     }
+
+    // add event listener to every "Add To Cart" button
     for (let btn of Array.from(document.querySelectorAll('.add_to_cart'))) {
       btn.addEventListener("click", (e: Event) => {
         const data: ProductData = {
@@ -36,9 +43,9 @@ export class Cart {
   public add_to_cart(product: ProductData) {
     // button click handler
     console.log("add to cart " + product.title)
-    const store = localStorage.getItem(this.key);
+    const store = localStorage.getItem(this.local_storage_key);
     let cartData: CartData;
-    if(store) {
+    if (store) {
       cartData = JSON.parse(store);
     } else {
       cartData = {
@@ -47,10 +54,29 @@ export class Cart {
     }
     let num = cartData.products.push(product);
     this.set_badge(num.toString());
-    localStorage.setItem(this.key, JSON.stringify(cartData));
+    localStorage.setItem(this.local_storage_key, JSON.stringify(cartData));
   }
 
   private set_badge(num: string) {
     $('#cart').find('.badge').text(num);
+  }
+
+  private open(): void {
+    console.log("open cart modal");
+    if (this.modal) {
+      this.modal.style.display = 'block';
+    }
+  }
+
+  private close(): void {
+    if (this.modal) {
+      this.modal.style.display = 'none';
+    }
+  }
+
+  private handleClickOutside(event: MouseEvent): void {
+    if (this.modal && event.target === this.modal) {
+      this.close();
+    }
   }
 }
