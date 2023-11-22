@@ -41,7 +41,7 @@
                           <div class="d-flex flex-row">
                             <button class="btn btn-link px-2"
                               onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                              <i class="fas fa-minus"></i>
+                              <i class="fas fa-minus">-</i>
                             </button>
 
                             <input id="form1" min="0" name="quantity" value="2" type="number"
@@ -49,7 +49,7 @@
 
                             <button class="btn btn-link px-2"
                               onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                              <i class="fas fa-plus"></i>
+                              <i class="fas fa-plus">+</i>
                             </button>
                           </div>
                         </td>
@@ -185,6 +185,12 @@
                           <p class="mb-2">$26.48</p>
                         </div>
 
+                        <button type="button" class="btn btn-primary btn-block btn-lg">
+                          <div class="d-flex justify-content-between">
+                            <span>Checkout</span>
+                            <span>$26.48</span>
+                          </div>
+                        </button>
 
                       </div>
                     </div>
@@ -198,12 +204,6 @@
         </section>
       </div>
       <div class="modal-footer">
-                        <button type="button" class="btn btn-primary btn-block btn-lg">
-                          <div class="d-flex justify-content-between">
-                            <span>Checkout</span>
-                            <span>$26.48</span>
-                          </div>
-                        </button>
       </div>
     </div>
   </div>

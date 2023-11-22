@@ -12,10 +12,6 @@ interface CartData {
 export class Cart {
   private local_storage_key: string;
 
-  private modal: HTMLElement | null;
-  private openBtn: HTMLElement | null;
-  private closeBtn: HTMLElement | null;
-
   constructor(local_storage_key: string = "cart") {
     console.log('loading up cart');
     // get local stored cart data
@@ -58,25 +54,6 @@ export class Cart {
   }
 
   private set_badge(num: string) {
-    $('#cart').find('.badge').text(num);
-  }
-
-  private open(): void {
-    console.log("open cart modal");
-    if (this.modal) {
-      this.modal.style.display = 'block';
-    }
-  }
-
-  private close(): void {
-    if (this.modal) {
-      this.modal.style.display = 'none';
-    }
-  }
-
-  private handleClickOutside(event: MouseEvent): void {
-    if (this.modal && event.target === this.modal) {
-      this.close();
-    }
+    $('#open_cart').find('.badge').text(num);
   }
 }
