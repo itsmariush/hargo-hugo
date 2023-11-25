@@ -14,6 +14,17 @@ export class Cart {
 
   constructor(local_storage_key: string = "cart") {
     console.log('loading up cart');
+    // setup url hash change listener
+    window.addEventListener("hashchange", this.handleHashChange);
+    this.handleHashChange();
+    // set modal listeners
+    $('#cart_modal').on('hide.bs.modal', () => {
+      window.location.hash = "";
+    });
+    $('#cart_modal').on('show.bs.modal', () => {
+      this.display_products();
+    });
+
     // get local stored cart data
     this.local_storage_key = local_storage_key;
     const store = localStorage.getItem(local_storage_key);
@@ -36,6 +47,12 @@ export class Cart {
     }
   }
 
+  private display_products() {
+    // TODO: render elements from localStorage in modal
+    console.log("display products");
+
+  }
+
   public add_to_cart(product: ProductData) {
     // button click handler
     console.log("add to cart " + product.title)
@@ -55,5 +72,12 @@ export class Cart {
 
   private set_badge(num: string) {
     $('#open_cart').find('.badge').text(num);
+  }
+
+  private handleHashChange() {
+    const n_hash = window.location.hash;
+    if (n_hash === "#cart") {
+      $('#cart_modal').modal();
+    }
   }
 }
