@@ -29,7 +29,6 @@ export class Cart {
     $('#cart_modal').on('show.bs.modal', () => {
       this.display_products();
     });
-
     // get local stored cart data
     this.local_storage_key = local_storage_key;
     let cartData: CartData = this.load();
@@ -185,5 +184,4 @@ export class Cart {
     // TODO: calculate and display total price
 
   }
-
 }
