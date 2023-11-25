@@ -9,6 +9,7 @@ interface CartData {
   products: ProductData[],
 }
 
+// graphics: https://support.stripe.com/questions/where-to-find-logos-for-accepted-credit-card-types
 export class Cart {
   private local_storage_key: string;
 
@@ -20,6 +21,8 @@ export class Cart {
     // set modal listeners
     $('#cart_modal').on('hide.bs.modal', () => {
       window.location.hash = "";
+      // TODO: maybe think of something better
+      this.clear_table();
     });
     $('#cart_modal').on('show.bs.modal', () => {
       this.display_products();
@@ -75,6 +78,7 @@ export class Cart {
     }
   }
 
+  // render elements from localStorage in modal
   private display_products() {
     const store = localStorage.getItem(this.local_storage_key);
     if (store) {
@@ -85,8 +89,14 @@ export class Cart {
     }
   }
 
+  // Clear product table
+  private clear_table() {
+    const elem = document.getElementById("cart_body");
+    if(elem) elem.innerHTML = "";
+  }
+
+  // create product in DOM
   private create_table_entry(id: string, image: string, price: string, title: string) {
-    // TODO: render elements from localStorage in modal
     console.log("display products");
     // Create a table row element
     const tableRow = document.createElement('tr');
@@ -144,7 +154,7 @@ export class Cart {
     const td2Paragraph = document.createElement('p');
     td2Paragraph.className = 'mb-0';
     td2Paragraph.style.fontWeight = '500';
-    td2Paragraph.textContent = price;
+    td2Paragraph.textContent = "$"+price;
     td2.appendChild(td2Paragraph);
 
     // Append th and tds to the table row
@@ -153,7 +163,6 @@ export class Cart {
     tableRow.appendChild(td2);
 
     // Append the table row to an existing table or container element
-    // For example, assuming you have a table with id="myTable"
     const tableContainer = document.getElementById('cart_body');
     if (tableContainer) {
       tableContainer.appendChild(tableRow);
