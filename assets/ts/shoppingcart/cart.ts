@@ -14,6 +14,12 @@ export class Cart {
 
   constructor(local_storage_key: string = "cart") {
     console.log('loading up cart');
+    // setup url hash change listener
+    window.addEventListener("hashchange", this.handleHashChange);
+    this.handleHashChange();
+    $('#cart_modal').on('hide.bs.modal', () => {
+      window.location.hash = "";
+    });
     // get local stored cart data
     this.local_storage_key = local_storage_key;
     const store = localStorage.getItem(local_storage_key);
@@ -55,5 +61,14 @@ export class Cart {
 
   private set_badge(num: string) {
     $('#open_cart').find('.badge').text(num);
+  }
+
+  private handleHashChange() {
+    console.log("url hash changed");
+    const n_hash = window.location.hash;
+    console.log(n_hash);
+    if (n_hash === "#cart") {
+      $('#cart_modal').modal();
+    }
   }
 }
