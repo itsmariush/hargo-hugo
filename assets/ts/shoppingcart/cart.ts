@@ -1,3 +1,5 @@
+import axios, { AxiosResponse, AxiosError } from 'axios';
+
 interface ProductData {
   id: string,
   title: string,
@@ -45,6 +47,13 @@ export class Cart {
         this.add_to_cart(data);
       });
     }
+
+    // checkout button listener
+    const checkout_btn = document.getElementById("checkout");
+    if(checkout_btn) checkout_btn.addEventListener("click", () => {
+      console.log("checkout");
+      this.checkout();
+    });
   }
 
   private save(data: CartData) {
@@ -63,8 +72,6 @@ export class Cart {
   }
 
   public add_to_cart(product: ProductData) {
-    // button click handler
-    console.log("add to cart " + product.title)
     let cartData: CartData = this.load();
     let num = cartData.products.push(product);
     this.set_badge(num.toString());
@@ -75,9 +82,16 @@ export class Cart {
     $('#open_cart').find('.badge').text(num);
   }
 
+  private checkout() {
+
+
+  }
+
   private handleHashChange() {
     const n_hash = window.location.hash;
     if (n_hash === "#cart") {
+      // TODO: render products
+      this.display_products();
       $('#cart_modal').modal();
     }
   }
@@ -168,6 +182,7 @@ export class Cart {
     if (tableContainer) {
       tableContainer.appendChild(tableRow);
     }
+    // TODO: calculate and display total price
 
   }
 
