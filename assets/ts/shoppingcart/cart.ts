@@ -30,11 +30,8 @@ export class Cart {
 
     // get local stored cart data
     this.local_storage_key = local_storage_key;
-    const store = localStorage.getItem(local_storage_key);
-    if (store) {
-      let cartData: CartData = JSON.parse(store);
-      this.set_badge(cartData.products.length.toString());
-    }
+    let cartData: CartData = this.load();
+    this.set_badge(cartData.products.length.toString());
 
     // add event listener to every "Add To Cart" button
     for (let btn of Array.from(document.querySelectorAll('.add_to_cart'))) {
@@ -50,21 +47,28 @@ export class Cart {
     }
   }
 
+  private save(data: CartData) {
+    localStorage.setItem(this.local_storage_key, JSON.stringify(data));
+  }
+
+  private load(): CartData {
+    const store = localStorage.getItem(this.local_storage_key);
+    if (store) {
+      let cartData: CartData = JSON.parse(store);
+      return cartData;
+    }
+    return {
+      products: []
+    };
+  }
+
   public add_to_cart(product: ProductData) {
     // button click handler
     console.log("add to cart " + product.title)
-    const store = localStorage.getItem(this.local_storage_key);
-    let cartData: CartData;
-    if (store) {
-      cartData = JSON.parse(store);
-    } else {
-      cartData = {
-        products: [],
-      }
-    }
+    let cartData: CartData = this.load();
     let num = cartData.products.push(product);
     this.set_badge(num.toString());
-    localStorage.setItem(this.local_storage_key, JSON.stringify(cartData));
+    this.save(cartData);
   }
 
   private set_badge(num: string) {
@@ -80,19 +84,16 @@ export class Cart {
 
   // render elements from localStorage in modal
   private display_products() {
-    const store = localStorage.getItem(this.local_storage_key);
-    if (store) {
-      let cartData: CartData = JSON.parse(store);
-      cartData.products.forEach(element => {
-        this.create_table_entry(element.id, element.image, element.price, element.title);
-      });
-    }
+    let cartData: CartData = this.load();
+    cartData.products.forEach(element => {
+      this.create_table_entry(element.id, element.image, element.price, element.title);
+    });
   }
 
   // Clear product table
   private clear_table() {
     const elem = document.getElementById("cart_body");
-    if(elem) elem.innerHTML = "";
+    if (elem) elem.innerHTML = "";
   }
 
   // create product in DOM
@@ -154,7 +155,7 @@ export class Cart {
     const td2Paragraph = document.createElement('p');
     td2Paragraph.className = 'mb-0';
     td2Paragraph.style.fontWeight = '500';
-    td2Paragraph.textContent = "$"+price;
+    td2Paragraph.textContent = "$" + price;
     td2.appendChild(td2Paragraph);
 
     // Append th and tds to the table row
