@@ -16,7 +16,7 @@ interface CheckoutResponse {
 // graphics: https://support.stripe.com/questions/where-to-find-logos-for-accepted-credit-card-types
 export class Cart {
   private local_storage_key: string;
-  api_url: string = "http://127.0.0.1:8000";
+  api_url: string = "http://127.0.0.1:8000/checkout_session";
 
   constructor(local_storage_key: string = "cart") {
     console.log('loading up cart');
@@ -86,7 +86,7 @@ export class Cart {
 
   private checkout() {
     // TODO: call backend api to init stripe checkout
-    axios.get<CheckoutResponse>(this.api_url)
+    axios.post<CheckoutResponse>(this.api_url)
       .then((response: AxiosResponse<CheckoutResponse>) => {
         console.log(response);
         const data: CheckoutResponse = response.data;
