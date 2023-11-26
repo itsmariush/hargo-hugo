@@ -1,5 +1,3 @@
-import axios, { AxiosResponse, AxiosError } from 'axios';
-
 interface ProductData {
   id: string,
   title: string,
@@ -11,9 +9,14 @@ interface CartData {
   products: ProductData[],
 }
 
+interface CheckoutResponse {
+  url: string
+}
+// https://support.stripe.com/questions/where-to-find-logos-for-accepted-credit-card-types
 // graphics: https://support.stripe.com/questions/where-to-find-logos-for-accepted-credit-card-types
 export class Cart {
   private local_storage_key: string;
+  api_url: string = "http://127.0.0.1:8000";
 
   constructor(local_storage_key: string = "cart") {
     console.log('loading up cart');
@@ -49,7 +52,7 @@ export class Cart {
 
     // checkout button listener
     const checkout_btn = document.getElementById("checkout");
-    if(checkout_btn) checkout_btn.addEventListener("click", () => {
+    if (checkout_btn) checkout_btn.addEventListener("click", () => {
       console.log("checkout");
       this.checkout();
     });
@@ -82,7 +85,17 @@ export class Cart {
   }
 
   private checkout() {
-
+    // TODO: call backend api to init stripe checkout
+    axios.get<CheckoutResponse>(this.api_url)
+      .then((response: AxiosResponse<CheckoutResponse>) => {
+        console.log(response);
+        const data: CheckoutResponse = response.data;
+        window.location.href = data.url;
+        console.log("Received responce: " + data.url);
+      }).
+      catch((error: AxiosError) => {
+        console.log(error);
+      });
 
   }
 
