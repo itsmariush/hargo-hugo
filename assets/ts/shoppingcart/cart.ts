@@ -84,13 +84,13 @@ export class Cart {
     $('#open_cart').find('.badge').text(num);
   }
 
+  // call backend api to init stripe checkout
   private checkout() {
-    // TODO: call backend api to init stripe checkout
-    axios.post<CheckoutResponse>(this.api_url)
+    axios.post<CheckoutResponse>(this.api_url, this.load())
       .then((response: AxiosResponse<CheckoutResponse>) => {
         console.log(response);
         const data: CheckoutResponse = response.data;
-        window.location.href = data.url;
+        //window.location.href = data.url;
         console.log("Received responce: " + data.url);
       }).
       catch((error: AxiosError) => {
