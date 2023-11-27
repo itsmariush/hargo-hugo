@@ -1,3 +1,5 @@
+import axios, {AxiosResponse, AxiosError} from "axios";
+
 interface ProductData {
   id: string,
   title: string,

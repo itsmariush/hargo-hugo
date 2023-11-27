@@ -13,7 +13,5 @@
     "project-setup": "node ./scripts/projectSetup.js",
     "theme-setup": "node ./scripts/themeSetup.js"
   },
-  "devDependencies": {
-    "@types/axios": "^0.14.0"
-  }
+  "devDependencies": {}
 }
