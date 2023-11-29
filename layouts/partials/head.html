@@ -24,7 +24,7 @@
   <link rel="shortcut icon" href="{{ `images/favicon.png` | absURL }} " type="image/x-icon">
   <link rel="icon" href="{{ `images/favicon.png` | absURL }} " type="image/x-icon">
 
-  {{ $js := resources.Get "ts/shoppingcart/main.ts" | js.Build }}
+  {{ $js := resources.Get "ts/main.ts" | js.Build }}
   <script src="{{ $js.Permalink }}" defer></script>
 
 </head>

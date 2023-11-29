@@ -27,6 +27,9 @@
           {{ end }}
           <span class="lead text-primary font-weight-medium">{{ site.Params.currencySymbol }}{{ .Params.Price }}</span>
         </div>
+        <div class="container mt-4 my-4">
+          {{ partial "select_country_form.html" . }}
+        </div>
         <h5>Short Description</h5>
         <p>{{ .Params.ShortDescription | markdownify }}</p>
         <button class="add_to_cart btn btn-primary" data-item-id="{{ .Params.ProductID }}"
@@ -58,6 +61,15 @@
     </div>
   </div>
 </section>
+<script>
+    // JavaScript for filtering countries based on input
+    $(document).ready(function () {
+        $('#countrySelect').select2();
+    });
+</script>
+<!-- Select2 library for enhancing select dropdown -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
 {{ partial "cta.html" . }}
 
